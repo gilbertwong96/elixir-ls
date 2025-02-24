@@ -12,15 +12,23 @@ set asdf_dir $ASDF_DIR
 
 test -z "$asdf_dir"; and set asdf_dir "$HOME/.asdf"
 
-set asdf_vm "$asdf_dir/asdf.fish"
 
 echo "Looking for ASDF install" >&2
 
-if test -f "$asdf_vm"
-  echo "ASDF install found in $asdf_vm, sourcing" >&2
-  source "$asdf_vm"
+if test -d "$asdf_dir"
+
+  set asdf_vm "$asdf_dir/asdf.fish"
+
+  if test -f "$asdf_vm"
+    echo "ASDF install found in $asdf_vm, sourcing" >&2
+    source "$asdf_vm"
+  end
+
+  # Since from the asdf v0.16.0, asdf has already been changed from shell scripts to
+  # binary written by golang, it's unnecessary to source the asdf-vm scripts
+
 else
-  echo "ASDF not found" >&2
+  echo "ASDF not installed" >&2
   echo "Looking for mise executable" >&2
 
   set mise (which mise)

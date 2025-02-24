@@ -38,14 +38,19 @@ esac
 
 ASDF_DIR=${ASDF_DIR:-"${HOME}/.asdf"}
 
-asdf_vm="${ASDF_DIR}/asdf.sh"
-
 >&2 echo "Looking for ASDF install"
-if test -f "${asdf_vm}"
+if test -d "${ASDF_DIR}"
 then
+
+  asdf_vm="${ASDF_DIR}/asdf.sh"
+
+  if test -f ${asdf_vm}
+  then
   >&2 echo "ASDF install found in $asdf_vm, sourcing"
   # shellcheck disable=SC1090
   .  "${asdf_vm}"
+  fi
+
 else
   >&2 echo "ASDF not found"
   >&2 echo "Looking for mise executable"
